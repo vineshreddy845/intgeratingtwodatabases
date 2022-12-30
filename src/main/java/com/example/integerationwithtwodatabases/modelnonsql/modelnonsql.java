@@ -8,7 +8,7 @@ import java.lang.annotation.Documented;
 @Document(collection ="reddy")
 public class modelnonsql {
 
-    private String names;
+    private String name;
     private String last;
     private int age;
     private String email;

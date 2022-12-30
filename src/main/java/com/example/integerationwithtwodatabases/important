@@ -1,0 +1,21 @@
+he @SpringBootApplication includes the features of the below Spring Boot annotations:
+
+@EnableAutoConfiguration - this will enable the auto-configuration feature of Spring Boot discussed earlier.
+@Configuration - it specifies a configuration class, where you’ll provide all the bean definitions that your application is using.
+Spring Boot will use the bean definitions provided in the configuration class to instantiate them at runtime.
+@ComponentScan - allows Spring Boot to scan the package for components like Service, Controller, Repository, etc.
+and register beans for each of those classes.
+
+
+
+-->above springboot annotation allows these speclization.
+
+we konw that @EnableAutoconfiguration.
+we konw that @Configuration . we should define bean .we springboot will create objects.
+@ComponentScan -allows Spring Boot to scan the package for components like Service, Controller, Repository, etc.
+                and register beans for each of those classes
+
+
+but in ourcase. springboot creating objects automatically for us in conroller,service,respository classes.
+but not in response class. we are @component . it is not creating object directly.
+why? but  after declaring @Component.it is working perfectly.

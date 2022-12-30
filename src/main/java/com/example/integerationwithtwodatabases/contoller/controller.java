@@ -7,9 +7,12 @@ import com.example.integerationwithtwodatabases.repository.repositorysql;
 import com.example.integerationwithtwodatabases.response.Response;
 import com.example.integerationwithtwodatabases.serverice.serverice;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 @RestController
@@ -24,6 +27,8 @@ public class controller {
     private serverice ser;
     @Autowired
     private Response respone;
+    @Autowired
+    private MongoTemplate mongoTemplate; //in built-class.comes from mongorepository.
 
     @GetMapping("/sql")
     public List<modelsql> sql() {
@@ -44,8 +49,13 @@ public class controller {
     }
 
     @PostMapping("/addnonsql")
-    public modelnonsql nonsql(@RequestBody modelnonsql sqlq) {
-        return sql.save(sqlq);
+    public modelnonsql nonsqlr(@RequestBody modelnonsql sqlqr) {
+        //return sql.save(sqlqr);
+        return null;
+    }
+    @GetMapping("/get")
+    public List<modelnonsql> nonsqlf() {
+        return sql.findByname("excellent");
     }
 
 
@@ -60,19 +70,46 @@ public class controller {
        // return null;
     }
 
+    // here we are passing two values and checking present in sql database.
+    // if it is true then . it will fetch data from mongodb.
+    //response in stored in response class.
     @GetMapping("/checks")
-  public List<Response> checks(@RequestBody modelsql sql)
-  {
-      String name1=sql.getName();
-      int student=sql.getStudentid();
+  public Response checks(@RequestBody modelsql sqlr, modelnonsql nonsql) {
+        String name1 = sqlr.getName();
+        int student = sqlr.getStudentid();
 
-      boolean d= ser.isvalid(name1,student);
-     List<Response>res = new ArrayList<>();
-      respone.setFirst(d);
-      res.add(respone);
-      return res;
-      //note response wrong. you have to write correct query. do it tommorrow.
-  }
+        boolean d = ser.isvalid(name1, student);
+        respone.setStore(d);
+        respone.setDescribe("response is working");
+
+       // List<modelnonsql> q = null; // here we stored response in the List<modelnonsql> see below.
+        if (d == true) {
+            respone.setQ(sql.findByname(name1));
+        }
+        return respone;
+
+
+    }
+
+    //here above code reterive mongo-query in defining repository class.
+    //below there is another way mongo-query defining see below.
+    //see 103,104,105 line.mongoTemplate. mongoTemplate object is declared above.
+    @GetMapping("/newway")
+    public Response modelnonsqlq(@RequestBody modelsql sg)
+    {
+        String name1 = sg.getName();
+        int student = sg.getStudentid();
+
+        boolean d = ser.isvalid(name1, student);
+        respone.setStore(d);
+        respone.setDescribe("response is working");
+        if(d=true){
+            Query query = new Query();
+          query.addCriteria(Criteria.where("name").is(name1));
+         respone.setQ( mongoTemplate.find(query,modelnonsql.class));
+        }
+        return respone;
+    }
 
 
 
