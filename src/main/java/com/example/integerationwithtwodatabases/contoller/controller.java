@@ -53,10 +53,10 @@ public class controller {
         //return sql.save(sqlqr);
         return null;
     }
-    @GetMapping("/get")
+   /* @GetMapping("/get")
     public List<modelnonsql> nonsqlf() {
         return sql.findByname("excellent");
-    }
+    }*/
 
 
 
@@ -94,7 +94,7 @@ public class controller {
     //here above code reterive mongo-query in defining repository class.
     //below there is another way mongo-query defining see below.
     //see 103,104,105 line.mongoTemplate. mongoTemplate object is declared above.
-    @GetMapping("/newway")
+   @GetMapping("/newway")
     public Response modelnonsqlq(@RequestBody modelsql sg)
     {
         String name1 = sg.getName();
@@ -106,7 +106,7 @@ public class controller {
         if(d=true){
             Query query = new Query();
           query.addCriteria(Criteria.where("name").is(name1));
-         respone.setQ( mongoTemplate.find(query,modelnonsql.class));
+        respone.setQ( mongoTemplate.find(query,modelnonsql.class));
         }
         return respone;
     }
