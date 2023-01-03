@@ -111,9 +111,42 @@ public class controller {
         return respone;
     }
 
+    // using AND,OR operators in mongodb.
 
+    @GetMapping("/oroperator")
+    public Response c(@RequestBody modelsql sq, modelnonsql sls){
+        String name1 = sq.getName();
+        int student = sq.getStudentid();
+        boolean d = ser.isvalid(name1, student);
+        respone.setStore(d);
+        respone.setDescribe("i used $or operator for mongodb query.To retive data. see in code.");
+        if(d=true){
+            Query query = new Query();
+            Criteria criteria = new Criteria();
+            criteria.orOperator(Criteria.where("name").is(name1),Criteria.where("age").is(student));
+            query.addCriteria(criteria);
+            respone.setQ(mongoTemplate.find(query,modelnonsql.class));
+        }
+       return respone;
+    }
+    @GetMapping("/andoperator")
+    public Response qt(@RequestBody modelsql lo, modelnonsql nonsql){
 
+        String name1=lo.getName();
+        int student = lo.getStudentid();
+      boolean d = ser.isvalid(name1, student);
+      respone.setStore(d);
+      respone.setDescribe("i used $and operator for mongodb query.To retive data. see in code.");
+      if(d=true){
+          Query query = new Query();
+          Criteria criteria = new Criteria();
+          criteria.andOperator(Criteria.where("name").is(name1),Criteria.where("age").is(student));
+          query.addCriteria(criteria);
+          respone.setQ(mongoTemplate.find(query,modelnonsql.class));
+      }
+      return respone;
 
+  }
 
 
 
