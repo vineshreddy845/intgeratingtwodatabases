@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
+@CrossOrigin(origins= {"*"}, maxAge = 4800, allowCredentials = "false")
 
 @RestController
 @RequestMapping("/map")
@@ -148,6 +149,27 @@ public class controller {
 
   }
 
+  @GetMapping("/gohead")
+  public List<modelsql>sd(@RequestBody modelsql wear)
+  {
+      String name1= wear.getName();
+      return sqll.findByname(name1);
+  }
 
-
+  @GetMapping("/path/{name}/{studentid}")
+  public Response fg(@PathVariable("name") String name,@PathVariable("studentid") int studentid){
+        String name1 = name;
+        int student = studentid;
+      boolean d = ser.isvalid(name1, student);
+      respone.setStore(d);
+      respone.setDescribe("i used $and operator for mongodb query.To retive data. see in code.");
+      if(d=true){
+          Query query = new Query();
+          Criteria criteria = new Criteria();
+          criteria.andOperator(Criteria.where("name").is(name1),Criteria.where("age").is(student));
+          query.addCriteria(criteria);
+          respone.setQ(mongoTemplate.find(query,modelnonsql.class));
+      }
+      return respone;
+  }
 }
