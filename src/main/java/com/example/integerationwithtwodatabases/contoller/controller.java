@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.ArrayList;
 import java.util.List;
 @CrossOrigin(origins= {"*"}, maxAge = 4800, allowCredentials = "false")
 
@@ -53,6 +54,12 @@ public class controller {
     public modelnonsql nonsqlr(@RequestBody modelnonsql sqlqr) {
         //return sql.save(sqlqr);
         return null;
+    }
+    @PutMapping("/update")
+    public modelsql de(@RequestBody modelsql sql){
+        modelsql sqr=sqll.findById(sql.getId()).get();
+       sqr.setStudentid(sql.getStudentid());
+       return sqll.save(sqr);
     }
    /* @GetMapping("/get")
     public List<modelnonsql> nonsqlf() {
@@ -157,19 +164,23 @@ public class controller {
   }
 
   @GetMapping("/path/{name}/{studentid}")
-  public Response fg(@PathVariable("name") String name,@PathVariable("studentid") int studentid){
-        String name1 = name;
-        int student = studentid;
+  public List<modelnonsql> fg(@PathVariable("name") String name,@PathVariable("studentid") int studentid) {
+      String name1 = name;
+      int student = studentid;
       boolean d = ser.isvalid(name1, student);
       respone.setStore(d);
       respone.setDescribe("i used $and operator for mongodb query.To retive data. see in code.");
-      if(d=true){
+      List<modelnonsql> r = null;
+      List<modelnonsql>h = new ArrayList<>();
+      if (d = true) {
           Query query = new Query();
           Criteria criteria = new Criteria();
-          criteria.andOperator(Criteria.where("name").is(name1),Criteria.where("age").is(student));
+          criteria.andOperator(Criteria.where("name").is(name1), Criteria.where("age").is(student));
           query.addCriteria(criteria);
-          respone.setQ(mongoTemplate.find(query,modelnonsql.class));
+          //respone.setQ(mongoTemplate.find(query,modelnonsql.class));
+         // r = mongoTemplate.find(query, modelnonsql.class);
+         h = mongoTemplate.find(query, modelnonsql.class);
       }
-      return respone;
+      return h;
   }
 }
