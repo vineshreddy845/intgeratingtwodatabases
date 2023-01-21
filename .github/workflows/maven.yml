@@ -31,7 +31,7 @@ jobs:
         run: mvn install -DskipTests
 
       - name: Build & push Docker image
-      - uses: mr-smithers-excellent/docker-build-push@v5
+        uses: mr-smithers-excellent/docker-build-push@v5
         with:
           image: vineshjalla/springboot-ap-icicd-docker
           tags: v1, latest
@@ -39,6 +39,7 @@ jobs:
           dockerfile: Dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+
 
         # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
       - name: Update dependency graph
