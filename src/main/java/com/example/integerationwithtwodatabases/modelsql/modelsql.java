@@ -1,8 +1,10 @@
 package com.example.integerationwithtwodatabases.modelsql;
 
-import jakarta.persistence.*;
+//import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+
+import javax.persistence.*;
 
 @Data
 @Entity
