@@ -6,7 +6,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: springbootAPI-CI
+name: integeratingwithtwodatabases
 
 on:
   push:
@@ -33,9 +33,9 @@ jobs:
       - name: Build & push Docker image
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
-          image: vineshjalla/springboot-ap-icicd-docker
+          image: vineshjalla/integeratingwithtwodatabses
           tags: v1, latest
-          registry: registry-url.io
+          registry: docker.io
           dockerfile: Dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
